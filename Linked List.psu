@@ -1,0 +1,111 @@
+// CREATE NEW LINKED LIST
+// NullPointer should be set to -1 if using array element with index 0
+CONSTANT NullPointer = –1
+// Declare record type to store data and pointer
+TYPE ListNode
+ DECLARE Data : STRING
+ DECLARE Pointer : INTEGER
+ENDTYPE
+
+DECLARE StartPointer : INTEGER
+DECLARE FreeListPtr : INTEGER
+DECLARE List : ARRAY[0 : 6] OF ListNode
+
+PROCEDURE InitialiseList
+	StartPointer ← NullPointer // set start pointer
+	FreeListPtr ← 0 // set starting position of free list
+
+	FOR Index ← 0 TO 5 // link all nodes to make free list
+		List[Index].Pointer ← Index + 1
+	NEXT Index
+
+	List[6].Pointer ← NullPointer // last node of free list
+ENDPROCEDURE
+
+
+// INSERT NEW NODE INTO LINKED LIST
+PROCEDURE InsertNode(NewItem)
+ 
+ IF FreeListPtr <> NullPointer
+  THEN // there is space in the array
+ 
+	 // take node from free list and store data item
+	NewNodePtr ← FreeListPtr
+	List[NewNodePtr].Data ← NewItem
+	FreeListPtr ← List[FreeListPtr].Pointer
+	 
+	// find insertion point
+	ThisNodePtr ← StartPointer // start at beginning of list
+	PreviousNodePtr ← NullPointer
+	 
+	WHILE ThisNodePtr <> NullPointer // while not end of list
+		AND List[ThisNodePtr].Data < NewItem DO
+			PreviousNodePtr ← ThisNodePtr // remember this node
+			// follow the pointer to the next node
+			ThisNodePtr ← List[ThisNodePtr].Pointer
+	ENDWHILE
+	 
+	IF PreviousNodePtr = StartPointer
+		THEN // insert new node at start of list
+			List[NewNodePtr].Pointer ← StartPointer
+			StartPointer ← NewNodePtr
+		ELSE // insert new node between previous node and this node
+			List[NewNodePtr].Pointer ← List[PreviousNodePtr].Pointer
+			List[PreviousNodePtr].Pointer ← NewNodePtr
+		ENDIF
+ ENDIF
+ENDPROCEDURE
+
+// FIND ITEM (NODE) IN LINKED LIST
+FUNCTION FindNode(DataItem) RETURNS INTEGER // returns pointer to node
+	CurrentNodePtr ← StartPointer // start at beginning of list
+	WHILE CurrentNodePtr <> NullPointer // not end of list
+		AND List[CurrentNodePtr].Data <> DataItem DO // item not found
+			
+			// follow the pointer to the next node
+			CurrentNodePtr ← List[CurrentNodePtr].Pointer
+			
+	ENDWHILE
+	
+	RETURN CurrentNodePtr // returns NullPointer if item not found
+ENDFUNCTION
+
+// DELETE NODE FROM LINKED LIST
+PROCEDURE DeleteNode(DataItem)
+	ThisNodePtr ← StartPointer // start at beginning of list
+	
+	WHILE ThisNodePtr <> NullPointer // while not end of list
+		AND List[ThisNodePtr].Data <> DataItem DO // and item not found
+			PreviousNodePtr ← ThisNodePtr // remember this node
+			// follow the pointer to the next node
+			ThisNodePtr ← List[ThisNodePtr].Pointer
+	ENDWHILE
+	
+	IF ThisNodePtr <> NullPointer // node exists in list
+		THEN
+			IF ThisNodePtr = StartPointer // first node to be deleted
+				THEN
+					// move start pointer to the next node in list
+					StartPointer ← List[StartPointer].Pointer
+				ELSE
+					// it is not the start node;
+					// so make the previous node’s pointer point to
+					// the current node’s 'next' pointer; thereby removing all
+					// references to the current pointer from the list
+					List[PreviousNodePtr].Pointer ← List[ThisNodePtr].Pointer
+			ENDIF
+		List[ThisNodePtr].Pointer ← FreeListPtr
+		FreeListPtr ← ThisNodePtr
+	ENDIF
+ENDPROCEDURE
+
+// ACCESS ALL NODES IN LINKED LIST
+PROCEDURE OutputAllNodes
+	CurrentNodePtr ← StartPointer // start at beginning of list
+	
+	WHILE CurrentNodePtr <> NullPointer DO // while not end of list
+		OUTPUT List[CurrentNodePtr].Data
+		// follow the pointer to the next node
+		CurrentNodePtr ← List[CurrentNodePtr].Pointer
+	ENDWHILE
+ENDPROCEDURE
