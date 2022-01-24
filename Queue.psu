@@ -25,3 +25,20 @@ IF queueLength < queueful
 	ELSE
 		OUTPUT "Queue is full, cannot enqueue"
 ENDIF
+
+// REMOVE ITEM FROM QUEUE
+IF queueLength = 0
+	THEN
+		OUTPUT "Queue is empty, cannot dequeue"
+	ELSE
+		Item ← queue[frontPointer]
+	
+	IF frontPointer = upperBound
+		THEN
+			frontPointer ← 1
+		ELSE
+			frontPointer ← frontPointer + 1
+	ENDIF
+	
+	queueLength ← queueLength - 1
+ENDIF
