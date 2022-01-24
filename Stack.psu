@@ -1,0 +1,26 @@
+// CREATE A STACK
+DECLARE stack ARRAY[1:10] OF INTEGER
+DECLARE topPointer : INTEGER
+DECLARE basePointer : INTEGER
+DECLARE stackful : INTEGER
+basePointer ← 1
+topPointer ← 0
+stackful ← 10
+
+//PUSH ITEM ONTO STACK
+IF topPointer < stackful
+	THEN
+		topPointer ← topPointer + 1
+		stack[topPointer] ← item
+	ELSE
+		OUTPUT "Stack is full, cannot push"
+ENDIF
+
+//POP ITEM FROM STACK
+IF topPointer = basePointer - 1
+	THEN
+		OUTPUT "Stack is empty, cannot pop"
+	ELSE
+		Item ← stack[topPointer]
+		topPointer ← topPointer - 1
+ENDIF
