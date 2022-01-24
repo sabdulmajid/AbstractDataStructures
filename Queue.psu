@@ -1,0 +1,11 @@
+// CREATE NEW QUEUE
+DECLARE queue ARRAY[1:10] OF INTEGER
+DECLARE rearPointer : INTEGER
+DECLARE frontPointer : INTEGER
+DECLARE queueful : INTEGER
+DECLARE queueLength : INTEGER
+frontPointer ← 1
+endPointer ← 0
+upperBound ← 10
+queueful ← 10
+queueLength ← 0
