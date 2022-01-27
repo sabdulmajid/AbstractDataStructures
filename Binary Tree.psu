@@ -1,0 +1,103 @@
+// CREATE A NEW BINARY TREE
+TYPE TreeNode
+	DECLARE item : INTEGER
+	DECLARE LeftPointer : INTEGER
+	DECLARE RightPointer : INTEGER
+ENDTYPE
+
+DECLARE myTree[0 : 8] OF TreeNode
+DECLARE rootPointer : INTEGER
+DECLARE nextFreePointer : INTEGER
+CONSTANT NullPointer ← -1
+
+PROCEDURE InitialiseTree
+	rootPointer ← NullPointer // set start pointer
+	nextFreePointer ← 0 // set starting position of free list
+	FOR Index ← 0 TO 7 // link all nodes to make free list
+		myTree[Index].LeftPointer ← Index + 1
+	NEXT Index
+	Tree[8].LeftPointer ← NullPointer // last node of free list
+ENDPROCEDURE
+
+
+// FIND ITEM IN BINARY TREE
+DECLARE rootPointer : INTEGER
+DECLARE itemPointer : INTEGER
+DECLARE itemSearch : INTEGER
+CONSTANT NullPointer ← -1
+
+rootPointer ← 0
+
+FUNCTION find(itemSearch) RETURNS INTEGER
+	itemPointer ← rootPointer
+
+	WHILE myTree[itemPointer].item <> itemSearch 
+		AND (itemPointer <> nullPointer) DO
+			IF myTree[itemPointer].item > itemSearch
+				THEN
+					itemPointer ← myTree[itemPointer].LeftPointer
+				ELSE
+					itemPointer ← myTree[itemPointer].RightPointer
+			ENDIF
+	ENDWHILE
+	
+	RETURN itemPointer
+ENDFUNCTION
+
+
+// INSERT ITEM INTO BINARY TREE
+TYPE node
+	DECLARE item : INTEGER
+	DECLARE leftPointer : INTEGER
+	DECLARE rightPointer : INTEGER
+	DECLARE oldPointer : INTEGER
+	DECLARE leftBranch : BOOLEAN
+ENDTYPE
+
+DECLARE myTree[0 : 11] OF node
+DECLARE rootPointer : INTEGER
+DECLARE nextFreePointer : INTEGER
+DECLARE itemPointer : INTEGER
+DECLARE itemAdd : INTEGER
+DECLARE itemAddPointer : Integer
+CONSTANT nullPointer = -1
+
+PROCEDURE nodeAdd(itemAdd)
+	IF nextFreePointer = nullPointer
+		THEN
+			OUTPUT "No nodes free"
+		ELSE
+			itemAddPointer ← nextFreePointer
+			nextFreePointer ← myTree[nextFreePointer].leftPointer
+			itemPointer ← rootPointer
+			
+			IF itemPointer = nullPointer
+				THEN
+					rootPointer ← itemAddPointer
+				ELSE
+					WHILE (itemPointer <> nullPointer) DO
+						oldPointer ← itemPointer
+						
+						IF myTree[itemPointer].item > itemAdd
+							THEN // choose left branch
+								leftBranch ← TRUE
+								itemPointer ← myTree[itemPointer].leftPointer
+							ELSE // choose right branch
+								leftBranch ← FALSE
+								itemPointer ← myTree[itemPointer].rightPointer
+						ENDIF
+					ENDWHILE
+					
+					IF leftBranch
+						THEN
+							myTree[oldPointer].leftPointer ← itemAddPointer
+						ELSE
+							myTree[oldPointer].rightPointer ← itemAddPointer
+					ENDIF
+			ENDIF
+		myTree[itemAddPointer].leftPointer ← nullPointer
+		myTree[itemAddPointer].rightPointer ← nullPointer
+		myTree[itemAddPointer].item ← itemAdd
+	ENDIF
+ENDPROCEDURE
+	
