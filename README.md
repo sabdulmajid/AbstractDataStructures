@@ -57,3 +57,20 @@ A compilation of all the pseudocode required for manipulating ADTs
 ### Dequeue item:
 
 ![Dequeue](https://github.com/sabdulmajid/AbstractDataStructures/blob/main/PseudocodeImages/Remove%20item%20from%20queue.JPG?raw=true)
+
+
+
+## Binary Tree
+### Creating a new binary tree:
+
+![Creating a new binary tree](https://github.com/sabdulmajid/AbstractDataStructures/blob/main/PseudocodeImages/Create%20new%20binary%20tree.JPG?raw=true)
+
+
+### Find node in a binary tree:
+
+![Find node](https://github.com/sabdulmajid/AbstractDataStructures/blob/main/PseudocodeImages/Find%20item%20in%20binary%20tree.JPG?raw=true)
+
+
+### Adding a new node to a binary tree:
+
+![Adding a new node](https://github.com/sabdulmajid/AbstractDataStructures/blob/main/PseudocodeImages/Insert%20new%20node%20into%20binary%20tree.JPG?raw=true)
