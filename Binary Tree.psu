@@ -45,7 +45,7 @@ FUNCTION find(itemSearch) RETURNS INTEGER
 ENDFUNCTION
 
 
-// INSERT ITEM INTO BINARY TREE
+
 TYPE node
 	DECLARE item : INTEGER
 	DECLARE leftPointer : INTEGER
@@ -62,6 +62,7 @@ DECLARE itemAdd : INTEGER
 DECLARE itemAddPointer : Integer
 CONSTANT nullPointer = -1
 
+// INSERT ITEM INTO BINARY TREE
 PROCEDURE nodeAdd(itemAdd)
 	IF nextFreePointer = nullPointer
 		THEN
